@@ -1,0 +1,530 @@
+# TabTogether - Product Requirements Document
+App Overview and Objectives
+App Name: TabTogether
+Platform: iOS (React Native with Swift components)
+Version: 1.0
+Target Release: TBD
+Mission Statement
+TabTogether revolutionizes bill splitting by providing a camera-first, intuitive solution that works for any type of bill - from restaurant 
+receipts to vacation expenses, grocery bills to utility statements. The app eliminates the awkwardness and complexity of dividing shared 
+expenses through intelligent OCR technology and flexible splitting options.
+
+Core Value Proposition
+
+Universal Bill Support: Unlike restaurant-focused competitors, TabTogether handles any bill type
+Camera-First Experience: Instant capture and processing removes friction from the splitting process
+Flexible Splitting Methods: Supports both item-by-item assignment and equal splitting
+No Account Friction: Optional account creation with local functionality
+Intelligent Tax/Tip Distribution: Automatic proportional distribution of shared costs
+
+Target Audience
+Primary Users
+
+College Students (18-24): Splitting dorm utilities, grocery runs, group dinners, textbook costs
+Young Professionals (22-30): Sharing vacation expenses, restaurant bills, household costs with roommates
+
+Secondary Users
+
+Friend Groups: Regular social dining and entertainment expenses
+Roommates: Ongoing shared household expenses
+Travel Groups: Vacation and trip expense management
+
+User Personas
+"Sarah the Student": Junior in college who frequently splits pizza orders, grocery trips, and study group expenses with 3 roommates. Values speed and simplicity over advanced features.
+"Mike the Young Professional": 26-year-old who shares a 2BR apartment and frequently organizes group dinners. Needs accurate splitting for both simple and complex bills.
+Core Features and Functionality
+1. Camera Integration and Capture
+Priority: Must-Have (Phase 1)
+Feature Description:
+App launches directly to camera interface for immediate bill capture.
+Acceptance Criteria:
+
+App opens to full-screen camera view within 2 seconds of launch
+Camera capture button prominently displayed and responsive
+Bottom-right button accesses device photo library
+Bottom-left button accesses bill history
+Supports both portrait and landscape capture orientations
+Image quality optimization for OCR processing
+
+Technical Implementation:
+
+React Native Camera integration
+Image preprocessing for optimal OCR results
+Local image storage with compression
+
+2. Optical Character Recognition (OCR)
+Priority: Must-Have (Phase 1)
+Feature Description:
+Instant text recognition and parsing of bill contents including items, prices, tax, and tips.
+Acceptance Criteria:
+
+Text extraction completes within 3 seconds of image capture
+Accurately detects item names, quantities, and prices
+Automatically identifies tax and tip amounts
+Handles multiple receipt formats (restaurant, grocery, retail, utility)
+Users can manually edit any detected text
+Confidence scoring for detected text elements
+
+Technical Implementation:
+
+Apple Vision Framework for on-device OCR
+Custom parsing algorithms for different receipt formats
+Fallback manual entry interface
+Text confidence indicators
+
+3. Participant Management
+Priority: Must-Have (Phase 2)
+Feature Description:
+Add and manage people participating in the bill split without requiring account creation.
+Acceptance Criteria:
+
+Add participants by name (text input)
+Support 2-20 participants per bill
+Quick access to recently used names
+Clear visual representation of all participants
+Edit or remove participants before finalizing split
+
+Technical Implementation:
+
+Local name storage and suggestions
+Participant state management
+UI components for participant display and selection
+
+4. Item Assignment Interface
+Priority: Must-Have (Phase 2)
+Feature Description:
+Intuitive interface for assigning detected items to specific participants using both tap and drag interactions.
+Acceptance Criteria:
+
+Tap Method: Tap item → tap participant name to assign
+Drag Method: Drag item to participant name/area
+Visual feedback during assignment (highlighting, animations)
+Support multiple people per item (shared appetizers, etc.)
+Undo/redo functionality for assignments
+Clear visual indication of assigned vs unassigned items
+Smooth 60fps interactions for all gestures
+
+Technical Implementation:
+
+React Native Gesture Handler for drag/drop
+State management for item assignments
+Animated feedback components
+Touch target optimization for mobile
+
+5. Flexible Splitting Methods
+Priority: Must-Have (Phase 2)
+Feature Description:
+Support both item-by-item assignment and equal splitting, with ability to combine methods within a single bill.
+Acceptance Criteria:
+
+Item-by-Item Mode: Individual assignment of each line item
+Equal Split Mode: Divide total amount equally among all participants
+Mixed Mode: Combine both methods (some items individual, others shared equally)
+Toggle between modes without losing existing assignments
+Clear mode indicators and instructions
+
+Technical Implementation:
+
+Calculation engine supporting multiple splitting algorithms
+Mode state management
+Real-time calculation updates
+
+6. Tax and Tip Management
+Priority: Must-Have (Phase 2)
+Feature Description:
+Intelligent handling of tax and tip amounts with both automatic detection and manual calculation capabilities.
+Acceptance Criteria:
+
+Automatically detect existing tax and tip from receipt
+Built-in tip calculator with percentage options (15%, 18%, 20%, custom)
+Proportional distribution of tax and tip based on each person's bill share
+Manual override for tax/tip amounts
+Real-time calculation updates when tip percentage changes
+
+Technical Implementation:
+
+OCR patterns for tax/tip detection
+Proportional calculation algorithms
+Tip calculator UI component
+
+7. Results Display and Calculation
+Priority: Must-Have (Phase 2)
+Feature Description:
+Clear summary showing exactly how much each person owes and to whom.
+Acceptance Criteria:
+
+Display each participant's name and total amount owed
+Identify who paid the original bill (bill payer owes $0)
+Show breakdown of each person's items, tax, and tip portions
+Clear "Person X owes $Y to [Bill Payer]" format
+Ability to designate different bill payer after calculation
+Total verification (individual amounts sum to bill total)
+
+Technical Implementation:
+
+Calculation validation logic
+Results display components
+Bill payer designation system
+
+8. History and Search
+Priority: Should-Have (Phase 3)
+Feature Description:
+Searchable history of all previous bill splits with detailed breakdowns.
+Acceptance Criteria:
+
+Chronological list of all processed bills
+Search by date, amount, participant names, or bill type
+Tap any historical bill to view complete details and breakdown
+Display bill image thumbnail with each history entry
+Sort options (date, amount, number of participants)
+
+Technical Implementation:
+
+Local database (SQLite/Realm)
+Cloud sync with Firebase Firestore
+Search indexing and algorithms
+Thumbnail generation and storage
+
+9. PDF Export
+Priority: Should-Have (Phase 3)
+Feature Description:
+Export detailed bill breakdown as PDF for record-keeping and sharing.
+Acceptance Criteria:
+
+Generate PDF with bill image, item breakdown, and participant amounts
+Professional formatting suitable for expense reports
+Include calculation details and timestamp
+Share via email, messaging, or save to device
+Batch export multiple bills
+
+Technical Implementation:
+
+React Native PDF generation library
+Template-based PDF formatting
+Native sharing integration
+
+10. Account Management and Sync
+Priority: Should-Have (Phase 3)
+Feature Description:
+Optional account creation with cloud backup and cross-device sync.
+Acceptance Criteria:
+
+Local-first functionality (no account required)
+Optional Google Sign-In integration
+Cloud backup of bill history and settings
+Cross-device synchronization
+Account deletion with data removal
+
+Technical Implementation:
+
+Firebase Authentication
+Firebase Firestore for cloud storage
+AsyncStorage for local data
+Sync conflict resolution
+
+Technical Stack Recommendations
+Frontend Framework
+React Native 0.72+
+
+Cross-platform development efficiency
+Access to native iOS features through Swift bridges
+Strong community and library ecosystem
+Hot reload for rapid development
+
+Backend Services
+Firebase Platform
+
+Authentication: Google Sign-In and custom accounts
+Database: Firestore for cloud data sync
+Storage: Cloud Storage for bill images
+Analytics: Firebase Analytics for user insights
+
+Native Components (iOS)
+Swift Integration
+
+Vision Framework: On-device OCR processing
+Core Image: Advanced image preprocessing
+PDFKit: Native PDF generation for exports
+
+Key Libraries
+json{
+  "react-native-vision-camera": "Camera integration",
+  "react-native-image-picker": "Photo library access", 
+  "@react-native-firebase/app": "Firebase core",
+  "@react-native-firebase/auth": "Authentication",
+  "@react-native-firebase/firestore": "Cloud database",
+  "react-native-gesture-handler": "Drag/drop interactions",
+  "react-native-reanimated": "Smooth animations",
+  "react-native-pdf-lib": "PDF generation",
+  "@react-native-async-storage/async-storage": "Local storage"
+}
+Development Environment
+
+Xcode 15+: iOS development and testing
+Node.js 18+: Package management and build tools
+Flipper: Debugging and performance monitoring
+Firebase Emulators: Local backend testing
+
+Conceptual Data Model
+Receipt Entity
+typescriptinterface Receipt {
+  id: string;
+  timestamp: Date;
+  imageUrl: string;
+  originalImagePath: string;
+  totalAmount: number;
+  taxAmount: number;
+  tipAmount: number;
+  detectedTip: number;
+  manualTip: number;
+  tipPercentage?: number;
+  items: Item[];
+  participants: Participant[];
+  splitMethod: 'individual' | 'equal' | 'mixed';
+  isProcessed: boolean;
+  ocrConfidence: number;
+  userId?: string; // null for local-only usage
+}
+Item Entity
+typescriptinterface Item {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  assignedTo: string[]; // participant IDs
+  isSharedEqually: boolean;
+  ocrConfidence: number;
+  category?: string;
+}
+Participant Entity
+typescriptinterface Participant {
+  id: string;
+  name: string;
+  totalOwed: number;
+  assignedItems: string[]; // item IDs
+  taxOwed: number;
+  tipOwed: number;
+  isPayer: boolean;
+}
+Calculation Result Entity
+typescriptinterface CalculationResult {
+  receiptId: string;
+  participants: ParticipantSummary[];
+  totalVerification: {
+    calculatedTotal: number;
+    originalTotal: number;
+    isAccurate: boolean;
+  };
+  generatedAt: Date;
+}
+
+interface ParticipantSummary {
+  name: string;
+  itemsTotal: number;
+  taxOwed: number;
+  tipOwed: number;
+  totalOwed: number;
+  itemBreakdown: ItemDetail[];
+}
+User Interface Design Principles
+Design Philosophy
+Minimalism with Purpose: Every screen element serves a clear function in the bill-splitting workflow.
+Camera-First Interface: The app experience begins with immediate access to camera functionality.
+Progressive Disclosure: Complex features (editing, manual entry) accessible but not prominent in primary flow.
+Navigation Structure
+Launch → Camera View
+         ├── Photo Library (bottom-right)
+         ├── History (bottom-left)  
+         └── Capture → OCR Processing → Participant Entry → Item Assignment → Results → Export/Save
+Interaction Patterns
+
+Primary Actions: Large touch targets (44pt minimum)
+Drag Feedback: Visual indicators during item assignment
+Error States: Clear messaging with suggested solutions
+Loading States: Progress indicators for OCR processing
+Success States: Confirmation animations and clear next steps
+
+Accessibility Considerations
+
+VoiceOver support for all interactive elements
+Dynamic Type support for text scaling
+High contrast mode compatibility
+Haptic feedback for important actions
+
+Security and Privacy Considerations
+Data Protection
+
+Local Storage Encryption: All sensitive data encrypted at rest
+Image Privacy: Receipt images stored locally with optional cloud backup
+Minimal Data Collection: Only necessary information for functionality
+User Consent: Clear opt-in for cloud features and data collection
+
+Authentication Security
+
+Firebase Security Rules: Restrict data access to authenticated users only
+Token Management: Secure handling of authentication tokens
+Account Deletion: Complete data removal upon account deletion
+
+Development Phases and Milestones
+Phase 1: Foundation (Weeks 1-4)
+Milestone: Functional camera capture and OCR processing
+Sprint 1 (Week 1-2):
+
+Project setup and navigation structure
+Camera integration with React Native Camera
+Basic UI components and styling system
+
+Sprint 2 (Week 3-4):
+
+Vision Framework integration for OCR
+Image preprocessing and text extraction
+Basic item detection and parsing
+Manual editing interface for OCR results
+
+Acceptance Criteria:
+
+✅ App launches to camera interface
+✅ Can capture receipt images
+✅ OCR extracts text with 80%+ accuracy on common receipts
+✅ Users can manually edit detected text
+
+Phase 2: Core Splitting Features (Weeks 5-10)
+Milestone: Complete bill splitting workflow
+Sprint 3 (Week 5-6):
+
+Participant management system
+Item assignment interface (tap method)
+Basic calculation engine
+
+Sprint 4 (Week 7-8):
+
+Drag and drop functionality
+Tip calculator integration
+Tax and tip distribution logic
+
+Sprint 5 (Week 9-10):
+
+Results display and verification
+Equal split and mixed mode functionality
+Error handling and edge cases
+
+Acceptance Criteria:
+
+✅ Complete workflow from capture to results
+✅ Both tap and drag assignment methods working
+✅ Accurate tax/tip distribution
+✅ Support for equal and mixed splitting modes
+
+Phase 3: Data Management and Polish (Weeks 11-14)
+Milestone: History, search, export, and cloud sync
+Sprint 6 (Week 11-12):
+
+Local data storage implementation
+History interface and search functionality
+Firebase integration setup
+
+Sprint 7 (Week 13-14):
+
+PDF export functionality
+Cloud sync and account management
+Performance optimization and testing
+App Store preparation
+
+Acceptance Criteria:
+
+✅ Bill history with search capability
+✅ PDF export functionality working
+✅ Optional account creation and cloud sync
+✅ App Store ready build
+
+Technical Challenges and Solutions
+1. OCR Accuracy Across Receipt Types
+Challenge: Different merchants use varying receipt formats, fonts, and layouts.
+Solution:
+
+Implement multiple OCR preprocessing pipelines for different receipt types
+Use machine learning models trained on diverse receipt datasets
+Provide confidence scoring and manual correction interface
+Build receipt format detection to choose optimal processing pipeline
+
+2. Real-Time Drag and Drop Performance
+Challenge: Smooth 60fps interactions during item assignment with multiple participants.
+Solution:
+
+Use React Native Reanimated 3 for native-thread animations
+Implement virtualization for large item lists
+Optimize component re-renders with React.memo and useMemo
+Use gesture handler native driver for touch interactions
+
+3. Complex Split Calculations
+Challenge: Accurate proportional tax/tip distribution with mixed splitting methods.
+Solution:
+
+Build comprehensive calculation engine with unit tests
+Implement validation checks to ensure totals match
+Provide clear breakdown of calculation logic to users
+Handle edge cases like rounding errors and zero-amount items
+
+4. Cross-Platform Receipt Format Variations
+Challenge: Receipts from different countries, languages, and business types.
+Solution:
+
+Start with US English receipts for MVP
+Build modular parsing system for easy localization
+Implement fallback manual entry for unsupported formats
+Collect user feedback to prioritize format support
+
+Future Expansion Possibilities
+Version 2.0 Features
+
+Spending Analytics: Monthly spending patterns and category breakdowns
+Group Management: Persistent groups for regular bill splitting
+Integration APIs: Venmo, Zelle, PayPal for direct payment requests
+Multi-Currency Support: International travel and business expenses
+
+Version 3.0 Features
+
+Web Application: Browser-based version for desktop users
+Business Features: Expense reporting and tax categorization
+Social Features: Friend networks and payment reminders
+AI Recommendations: Smart tip suggestions and spending insights
+
+Potential Monetization
+
+Freemium Model: Basic splitting free, advanced features premium
+Export Premium: PDF exports and advanced history features
+Business Tier: Team expense management and reporting tools
+API Licensing: White-label OCR and splitting technology
+
+Success Metrics and KPIs
+User Engagement
+
+Daily Active Users (DAU): Target 60% of weekly users
+Session Duration: Average 3-5 minutes per session
+Feature Adoption: 80% use basic splitting, 40% use advanced features
+
+Product Performance
+
+OCR Accuracy: 90%+ text recognition accuracy
+Processing Speed: < 3 seconds from capture to results
+User Satisfaction: 4.5+ App Store rating
+
+Business Metrics
+
+User Retention: 40% return after 30 days
+Organic Growth: 30% of new users from referrals
+Market Penetration: Top 10 finance app in target demographic
+
+
+Implementation Notes
+This PRD is designed for handoff to development teams (human or AI) and provides:
+
+Clear acceptance criteria for each feature
+Specific technical recommendations with rationale
+Detailed data models ready for implementation
+Development phases optimized for iterative delivery
+Comprehensive edge case consideration
+
+For questions or clarifications on any aspect of this PRD, refer to the original requirement discussions or consult with the product team.
+Document Version: 1.0
+Last Updated: June 28, 2025
